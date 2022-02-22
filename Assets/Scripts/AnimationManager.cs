@@ -58,7 +58,7 @@ public static class AnimationManager
     public static void UpdateMatrixView()
     {
        Matrix matrix = Parameters.GetGameMatrix();
-        List<Cell> cellsForDelete = new List<Cell>();  //todo надо принимать ток данные а не высчитывать
+        List<Cell> cellsForDelete = new List<Cell>(); 
 
 
         cellsForDelete = matrix.cells.FindAll(c => c.isEmpty == true);

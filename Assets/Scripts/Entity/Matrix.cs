@@ -34,43 +34,44 @@ public class Matrix
         }
     }
 
+
+
+    //:(
+    /*
     public void UpdateMatrix(int[] deletedCellsID)
     {
+  
         foreach (int id in deletedCellsID)
-            this.cells[id].isEmpty = true;       
+            this.cells[id].SetEmpty();       
 
         MoveCells();
-
-        AnimationManager.EmptyBlocksAnimation(ForDelete());
+      
+          //AnimationManager.EmptyBlocksAnimation(ForDelete());
         Parameters.isMatrixUpdated = true;
-        MyDebugger.PrintAllCells(cells);
+       // MyDebugger.PrintAllCells(cells);
 
-    }
-
-    int offset = 0;
+    }    
 
     private void MoveCells()
-    {
-       
-        for (int col = 0; col < cols; col++)
-        {
-            AssessColumn(col);
-        }
+    {       
+        for (int col = 0; col < cols; col++)        
+            AssessColumn(col);        
     }
 
     private void AssessColumn(int col)
     {
+        //Список элементов, которые должны упасть
         List<Cell> cellsToFall = new List<Cell>();
+        int offset = 0;
 
         for (int row = 0; row < rows; row++)
         {
             Cell current = GetCellByXY(col,row);
 
-            if (!current.isEmpty)
-            {
+            if (!current.isEmpty)            
                 cellsToFall.Add(current);
-            }
-            if ((row + 1) < rows)
+            
+            if (row < rows - 1)
             {
                 if (GetCellByXY(col, row + 1).isEmpty)
                 {
@@ -79,21 +80,25 @@ public class Matrix
                     {
                         row++;
                         offset++;
+                        if (row == rows) break;
                     }
 
                     if (row < rows)
                     {
                         foreach (Cell c in cellsToFall)
                         {                          
-                            GetCellByXY(col, c.row + offset-1).color = c.color;
-                            GetCellByXY(col, c.row + offset-1).isEmpty = false;
-                            c.isEmpty = true;
+                            GetCellByXY(col, c.row + offset).color = c.color;
+                            GetCellByXY(col, c.row + offset).isEmpty = false;                            
+                        }
+                        for (int i = 0; i < offset; i++)
+                        {
+                            cellsToFall[i].SetEmpty();
                         }
                     }
                 }
             }
         }
-        cellsToFall.Clear(); offset = 0;
+        
     }
  
 
@@ -110,130 +115,29 @@ public class Matrix
                 return forDel;
     }
    
-
-   
-    public Cell[,] ListCellsToArray()
-    {
-        Cell[,] cell = new Cell[cols, rows];
-
-        for (int row = 0; row < rows; row++)
-
-            for (int col = 0; col < cols; col++)
-                cell[col, row] = GetCellByXY(col,row);
-
-        return cell;
-    }
-
-    public Cell GetCellByXY(int X, int Y)
+     public Cell GetCellByXY(int X, int Y)
     {
         foreach (Cell item in cells)
         {
             if (item.col == X && item.row == Y) return item;
         }
         return null;
-    }
+    }*/
 
+   /* public Cell[,] ListCellsToArray()
+    {
+        Cell[,] cell = new Cell[cols, rows];
+
+        for (int row = 0; row < rows; row++)
+
+            for (int col = 0; col < cols; col++)
+                cell[col, row] = GetCellByXY(col, row);
+
+        return cell;
+    }*/
 
 }
 
-/*
- *  for (int row = 0; row < rows; row++)
-            {
-                if (!(GetCellByXY(col,row)).isEmpty) cellsToFall.Add(GetCellByXY(col,row));
-                {
-                    if (Algorithm.IsCellExist(col, row + 1))
-                    {
-                        if (GetCellByXY(col,(row+1)).isEmpty)
-                        {
-                            row++;
-                            while (GetCellByXY(col,row).isEmpty)
-                            {
-                                row++;
-                                offset++;
-                                if (row == rows) break;
-                            }
-                        }
-
-                        for (int i = ((cellsToFall.Count) - 1); i >= 0; i--)
-                        {
-                            if (Algorithm.IsCellExist(col, cellsToFall[i].row + offset))
-                            {
-                                GetCellByXY(col, cellsToFall[i].row + offset).color = cellsToFall[i].color;
-                                GetCellByXY(col, cellsToFall[i].row + offset).isEmpty = false;
-                            }
-                        }
-                        foreach (Cell item in cellsToFall)
-                        {
-                            item.isEmpty = true;
-                        }
-                        offset = 0;
-                    }
-                }
-            }    cellsToFall.Clear();
- * 
-  public void UpdateMatrix(int[] deletedCellsID)  
-    {       
-        foreach (int id in deletedCellsID)        
-            this.cells[id].isEmpty = true;
-
-        MoveCells();
-        Parameters.isMatrixUpdated = true;
-    }
-
-    Cell[,] cell;
-
-    List<Cell> cellsToFall;
-
-    int offset = 0;
-
-    private void MoveCells() 
-    {
-        cell = ListCellsToArray();
-
-        cellsToFall = new List<Cell>();   
-
-
-        for (int col = 0; col < cols; col++)
-        {
-            for (int row = 0; row < rows; row++)
-            {
-                if (!cell[col, row].isEmpty) cellsToFall.Add(cell[col, row]);
-                {
-                    if (Algorithm.IsCellExist(col, row + 1))
-                    {
-                        if (cell[col, row + 1].isEmpty)
-                        {
-                            row++;
-                            while (cell[col, row].isEmpty)
-                            {
-                                row++;
-                                offset++;
-                                if (row == rows) break;
-                            }
-                        }
-
-                        for (int i = ((cellsToFall.Count) - 1); i >= 0; i--)
-                        {
-                            if (Algorithm.IsCellExist(col, cellsToFall[i].row + offset)) {
-                                cell[col, cellsToFall[i].row + offset].color = cellsToFall[i].color;
-                                cell[col, cellsToFall[i].row + offset].isEmpty = false;
-                            }
-                        }
-                        foreach (Cell item in cellsToFall)
-                        {
-                            item.isEmpty = true;
-                        }
-                        offset = 0;
-                    }
-                }
-            }
-
-
-
-        }
-        cellsToFall.Clear();
-    }
- */
 
 
 

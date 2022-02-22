@@ -19,8 +19,7 @@ public class Cell
 
     public void SetEmpty()
     {
-        this.isEmpty = true;
-
-
+        isEmpty = true;
+        color = new Color(0f,0f, 0f,0f);
     }
 }
